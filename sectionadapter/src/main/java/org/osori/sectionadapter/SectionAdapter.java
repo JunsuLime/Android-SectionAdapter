@@ -67,6 +67,9 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                 }
                 layout.setLayoutParams(lp);
             }
+            else {
+                layout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
 
             int numberOfGrid = viewOption.numberOfGrid;
             List<RecyclerView.ViewHolder> holders = new ArrayList<>();
