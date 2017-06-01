@@ -13,14 +13,20 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * Created by junsu on 2017-05-08.
+ * Created by junsuLime
  *
  * SectionAdapter
  * It works Swift TableView
  *
+ * Concept of Row and Item
+ *
+ * Row:
+ * Item:
+ *
  * Constraint1: Grid item must have distinguished viewType between other grid item or non-grid item
  * Constraint2: Any section of item can have only one view type
  * Constraint3: If you return NONE_VIEW_TYPE -1, this adapter will recognize this return value as there is no view in section
+ * Constraint4: Current version of SectionAdapter can be adapted at orientation vertical
  */
 
 public abstract class SectionAdapter extends RecyclerView.Adapter {
@@ -30,6 +36,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
     // Key is viewType and value is viewOption
     private Hashtable<Integer, ViewOption> mViewOptionTable = new Hashtable<>();
 
+    // Header or footer view type can be NONE_VIEW_TYPE, if you want not to put header or footer.
     public static final int NONE_VIEW_TYPE = -1;
     public static final int DEFAULT_GRID = 1;
 
@@ -50,13 +57,14 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             // Grid Item 이 들어갈 view holder
             // vertical orientation 만 상정하고 짜져있음
             // TODO: horizontal 도 고려한 코딩을 하자
+
+            // # Constraint4
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
 
             // TODO: row 의 rowLayoutParams 가 안먹히는 문제
             // 현재는 그냥 복사해서 쓰는방식 채택
             if (viewOption.gridItemLayoutParam != null) {
-                Log.d(TAG, "set layout params......");
                 RecyclerView.LayoutParams holderLp = viewOption.gridItemLayoutParam;
                 RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(holderLp.width, holderLp.height);
                 lp.setMargins(holderLp.leftMargin, holderLp.topMargin, holderLp.rightMargin, holderLp.bottomMargin);
@@ -66,9 +74,6 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                     lp.setMarginEnd(holderLp.getMarginEnd());
                 }
                 layout.setLayoutParams(lp);
-            }
-            else {
-                layout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
 
             int numberOfGrid = viewOption.numberOfGrid;
@@ -92,8 +97,9 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d(TAG, "onBindItemHolder is called with holder: " + holder);
         IndexPath indexPath = buildIndexPath(position);
+
+        // Case of GridViewHolder, onBindItemHolder is called inside of GridViewHolder
 
         if (holder instanceof GridViewHolder) {
             ((GridViewHolder) holder).bind(indexPath);
@@ -103,6 +109,22 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
     }
 
     public abstract void onBindItemHolder(RecyclerView.ViewHolder holder, IndexPath indexPath);
+
+    @Override
+    public final void onViewRecycled(RecyclerView.ViewHolder holder) {
+        if (holder instanceof GridViewHolder) {
+            for (RecyclerView.ViewHolder itemHolder : ((GridViewHolder) holder).mHolders) {
+                onItemRecycled(itemHolder);
+            }
+        }
+        else {
+            onItemRecycled(holder);
+        }
+    }
+
+    public void onItemRecycled(RecyclerView.ViewHolder holder) {
+        return;
+    }
 
     @Override
     public int getItemCount() {
@@ -229,6 +251,13 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         return ((itemCount - 1) / gridCount) + 1;
     }
 
+    /**
+     * To provide row index for user, make this function.
+     * When user user LayoutManager, row count is needed
+     *
+     * @param indexPath indexPath that you want to access
+     * @return row index for indexPath
+     */
     public final int getRowPosition(IndexPath indexPath) {
         int sectionCount = getSectionCount();
         int rowCount = 0;
@@ -314,7 +343,6 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
     /**
      * For selective grid item!
      */
-
     private class GridViewHolder extends RecyclerView.ViewHolder {
 
         private List<RecyclerView.ViewHolder> mHolders;
@@ -343,6 +371,13 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         }
     }
 
+
+    /**
+     * To handle grid option of item
+     *
+     * numberOfGrid: How many items will be contained at one row
+     * gridItemLayoutParam: row's layoutParams, not item...
+     */
     public class ViewOption {
         public int numberOfGrid;
         public RecyclerView.LayoutParams gridItemLayoutParam;
@@ -357,3 +392,4 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         }
     }
 }
+
