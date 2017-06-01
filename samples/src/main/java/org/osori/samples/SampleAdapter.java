@@ -77,7 +77,7 @@ public class SampleAdapter extends SectionAdapter {
     public int getSectionHeaderViewType(int sectionIndex) {
         switch (sectionIndex) {
             case SECTION_FIRST:
-                return NONE_VIEW_TYPE;
+                return ITEM_HEADER;
             case SECTION_SECOND:
                 return ITEM_HEADER;
         }
