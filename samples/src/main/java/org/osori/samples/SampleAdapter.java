@@ -19,11 +19,15 @@ public class SampleAdapter extends SectionAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
 
+    // first section's item list
+    // it is define at MainActivity.
     private List<String> mItemList;
 
+    // for convenience section index is defined as final variable
     private final int SECTION_FIRST = 0;
     private final int SECTION_SECOND = 1;
 
+    // for convenience view type is defined as final variable
     private final int ITEM_HEADER = 0;
     private final int ITEM_FOOTER = 1;
     private final int ITEM_BODY_FIRST = 3;
@@ -32,6 +36,8 @@ public class SampleAdapter extends SectionAdapter {
     public SampleAdapter(Context context, List<String> itemList) {
         super(context);
         mContext = context;
+
+        // get inflater to inflate in onCreateItemHolder.
         mInflater = LayoutInflater.from(context);
 
         mItemList = itemList;

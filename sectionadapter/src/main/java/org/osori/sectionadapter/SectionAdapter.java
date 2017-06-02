@@ -16,12 +16,13 @@ import java.util.List;
  * Created by junsuLime
  *
  * SectionAdapter
- * It works Swift TableView
+ * Concept of section is came from Swift TableView.
  *
  * Concept of Row and Item
  *
- * Row:
- * Item:
+ * Row: Raw position at RecyclerView.Adapter
+ * Item: Item what you deal with
+ * Section: Section contains item.
  *
  * Constraint1: Grid item must have distinguished viewType between other grid item or non-grid item
  * Constraint2: Any section of item can have only one view type
@@ -40,6 +41,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
     public static final int NONE_VIEW_TYPE = -1;
     public static final int DEFAULT_GRID = 1;
 
+    // Context to create inflate GridViewHolder
     private Context context;
 
     public SectionAdapter(Context context) {
@@ -54,16 +56,11 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             return onCreateItemHolder(parent, viewType);
         }
         else {
-            // Grid Item 이 들어갈 view holder
-            // vertical orientation 만 상정하고 짜져있음
-            // TODO: horizontal 도 고려한 코딩을 하자
-
             // # Constraint4
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
 
-            // TODO: row 의 rowLayoutParams 가 안먹히는 문제
-            // 현재는 그냥 복사해서 쓰는방식 채택
+            // copy viewOption's layout params
             if (viewOption.gridItemLayoutParam != null) {
                 RecyclerView.LayoutParams holderLp = viewOption.gridItemLayoutParam;
                 RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(holderLp.width, holderLp.height);
@@ -74,6 +71,9 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                     lp.setMarginEnd(holderLp.getMarginEnd());
                 }
                 layout.setLayoutParams(lp);
+            }
+            else {
+                layout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
 
             int numberOfGrid = viewOption.numberOfGrid;
@@ -93,6 +93,14 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * As RecyclerView.Adapter, onCreateItemHolder's param is parent and viewType
+     * Usage of this function is same as RecyclerView.Adapter's onCreateViewHolder
+     *
+     * @param parent: Container of itemView
+     * @param viewType: Same as RecyclerView viewType. It's defined by user
+     * @return ViewHolder what you want to return
+     */
     public abstract RecyclerView.ViewHolder onCreateItemHolder(ViewGroup parent, int viewType);
 
     @Override
@@ -108,6 +116,17 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * It's similar to RecyclerView.Adapter's onBindViewHolder.
+     * But this function pass parameter IndexPath, not position.
+     *
+     * IndexPath has two attributes
+     * 1) section
+     * 2) item
+     *
+     * @param holder: Holder that you made at onCreateItemHolder
+     * @param indexPath: holder's position
+     */
     public abstract void onBindItemHolder(RecyclerView.ViewHolder holder, IndexPath indexPath);
 
     @Override
@@ -122,10 +141,20 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * It's same as RecyclerView.Adapter's onViewRecycled.
+     * @param holder: Holder that recycled.
+     */
     public void onItemRecycled(RecyclerView.ViewHolder holder) {
         return;
     }
 
+    /**
+     * All row count in RecyclerView, not item count.
+     * Its name is getItemCount, because RecyclerView.Adapter's original function name is getItemCount ..
+     *
+     * @return: Row count
+     */
     @Override
     public int getItemCount() {
         int itemCount = 0;
@@ -144,8 +173,17 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         return itemCount;
     }
 
+    /**
+     * Number of section what you want to create
+     * @return: Section count
+     */
     public abstract int getSectionCount();
 
+    /**
+     * Get item count of section
+     * @param sectionIndex: Section index
+     * @return: Section's item count
+     */
     public abstract int getSectionItemCount(int sectionIndex);
 
     @Override
@@ -176,18 +214,46 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         return viewType;
     }
 
+    /**
+     * Section Item's viewType is restricted to only one viewType.
+     * Define sectionItem's viewType in here.
+     * This value will be transferred to onCreateItemHolder.
+     * @param sectionIndex: Section index what you want to define viewType
+     * @return: Item viewType
+     */
     public int getSectionItemViewType(int sectionIndex) {
         return 0;
     }
 
+    /**
+     * Section Header's viewType is restricted to only one viewType.
+     * Define sectionItem's viewType in here.
+     * This value will be transferred to onCreateItemHolder.
+     * @param sectionIndex: Section index what you want to define viewType
+     * @return: Header viewType
+     */
     public int getSectionHeaderViewType(int sectionIndex) {
         return NONE_VIEW_TYPE;
     }
 
+    /**
+     * Section Item's viewType is restricted to only one viewType.
+     * Define sectionItem's viewType in here.
+     * This value will be transferred to onCreateItemHolder.
+     * @param sectionIndex: Section index what you want to define viewType
+     * @return: Footer viewType
+     */
     public int getSectionFooterViewType(int sectionIndex) {
         return NONE_VIEW_TYPE;
     }
 
+    /**
+     * IndexPath is main concept of this library.
+     * This function build IndexPath by rowPosition.
+     *
+     * @param position: Row position
+     * @return: IndexPath of rowPosition
+     */
     public final IndexPath buildIndexPath(int position) {
         int sectionCount = getSectionCount();
         int cur = 0;    // current ref position
@@ -323,15 +389,38 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         return -1;
     }
 
+    /**
+     * This option is related with grid attribute.
+     * You can select section that have grid option by using this function.
+     *
+     * ViewType has two attribute,
+     * 1) numberOfGrid
+     * 2) Row layout params
+     *
+     * @param viewType: The viewType what you want to modify
+     * @return: ViewOption of that viewType
+     */
     public ViewOption getItemViewOption(int viewType) {
         return null;
     }
 
+    /**
+     * IndexPath
+     *
+     * Concept of IndexPath is came from Swift TableView.
+     * It have big Section in table and
+     * Table contains Item.
+     *
+     * section is index of section and
+     * item is index of item.
+     */
     public static class IndexPath {
         public int section;
         public int item;
 
+        // Header's item value
         public static int HEADER = -1;
+        // Footer's item value
         public static int FOOTER = -2;
 
         public IndexPath(int section, int item) {
@@ -342,6 +431,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
 
     /**
      * For selective grid item!
+     * numberOfGrid != 1 (DEFAULT_GRID)
      */
     private class GridViewHolder extends RecyclerView.ViewHolder {
 
