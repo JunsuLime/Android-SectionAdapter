@@ -1,9 +1,11 @@
 # SectionAdapter
 
+  <img src="https://cloud.githubusercontent.com/assets/17852124/26753991/f83a0a80-48ac-11e7-946c-9c20917ce6bf.png" width="400" />
+
+
 ## index
 
 * Motivation
-* Sample image
 * How to use it?
 
 ### Motivation
@@ -17,11 +19,6 @@ But when I deal with serveral list data on one RecyclerView Adapter, It's very h
 My coworker, ios develop introduce TableView to me. TableView control list and it is divided with section.
 
 I thought "That good idea!" and made this library
-
-
-### Sample Image
-
-soon...
 
 
 ### How to use it?
