@@ -1,17 +1,20 @@
 package org.osori.samples;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.osori.sectionadapter.SectionAdapter;
 
 import java.util.List;
 
 /**
- * Created by junsu on 2017-05-19.
+ * Created by junsu
  */
 
 public class SampleAdapter extends SectionAdapter {
@@ -30,8 +33,8 @@ public class SampleAdapter extends SectionAdapter {
     // for convenience view type is defined as final variable
     private final int ITEM_HEADER = 0;
     private final int ITEM_FOOTER = 1;
-    private final int ITEM_BODY_FIRST = 3;
-    private final int ITEM_BODY_SECOND = 4;
+    private final int ITEM_BODY_FIRST = 2;
+    private final int ITEM_BODY_SECOND = 3;
 
     public SampleAdapter(Context context, List<String> itemList) {
         super(context);
@@ -60,7 +63,15 @@ public class SampleAdapter extends SectionAdapter {
 
     @Override
     public void onBindItemHolder(RecyclerView.ViewHolder holder, IndexPath indexPath) {
+        int section = indexPath.section;
+        int item = indexPath.item;
 
+        if (holder instanceof FirstBodyViewHolder) {
+            ((FirstBodyViewHolder) holder).bind(mItemList.get(item));
+        }
+        if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).bind(section);
+        }
     }
 
     @Override
@@ -122,8 +133,17 @@ public class SampleAdapter extends SectionAdapter {
 
     private class FirstBodyViewHolder extends RecyclerView.ViewHolder {
 
+        TextView bodyText;
+        ImageView bodyImage;
         public FirstBodyViewHolder(View itemView) {
             super(itemView);
+            bodyText = (TextView) itemView.findViewById(R.id.body_first_text);
+            bodyImage = (ImageView) itemView.findViewById(R.id.body_first_image);
+        }
+
+        public void bind(String stringValue) {
+            bodyText.setText(stringValue);
+            bodyImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher_round));
         }
     }
 
@@ -135,9 +155,14 @@ public class SampleAdapter extends SectionAdapter {
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
-
+        TextView headerText;
         public HeaderViewHolder(View itemView) {
             super(itemView);
+            headerText = (TextView) itemView.findViewById(R.id.header_text);
+        }
+
+        public void bind(int position) {
+            headerText.setText(String.format("%d section header", position));
         }
     }
 

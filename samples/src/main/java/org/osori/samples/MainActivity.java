@@ -18,7 +18,8 @@ public class MainActivity extends Activity {
     SampleAdapter sampleAdapter;
 
     String[] stringArray = {
-            "a", "b", "c", "d", "e"
+            "This is", "RecyclerView", "Adapter",
+            "for", "EveryOne", ",", "Opensource", "made by", "Osori.junsuLime"
     };
 
     @Override

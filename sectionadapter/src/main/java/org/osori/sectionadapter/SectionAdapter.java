@@ -82,7 +82,6 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                 RecyclerView.ViewHolder itemHolder = onCreateItemHolder(layout, viewType);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemHolder.itemView.getLayoutParams();
                 params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 params.weight = 1f;
 
                 itemHolder.itemView.setLayoutParams(params);
