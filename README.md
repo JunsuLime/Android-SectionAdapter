@@ -2,7 +2,7 @@
 
 ***Recycler Adapter to control section item.***
 
-<img src="https://cloud.githubusercontent.com/assets/17852124/26753991/f83a0a80-48ac-11e7-946c-9c20917ce6bf.png" width="400" />
+<img src="https://cloud.githubusercontent.com/assets/17852124/26761634/47823b14-496e-11e7-91c3-0713d3c42893.png"/>
 
 
 ## index
