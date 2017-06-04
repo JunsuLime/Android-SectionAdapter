@@ -25,8 +25,124 @@ I thought "That good idea!" and made this library
 
 ### How to use it?
 
+1) Make Adapter that extends SectionAdapter
 
-soon...
+```java
+public class SampleAdapter extends SectionAdapter {
+    public SampleAdpater(Context context) {
+        super(context);
+    }
+}
+```
+
+2) Override unimplemented method (must)
+    * getSectionItemViewType: return viewType of section item, return value must not be NONE_VIEW_TYPE, -1.
+        ```java
+        @Override
+        public int getSectionItemViewType(int sectionIndex) {
+            switch (sectionIndex) {
+                case SECTION_FIRST:
+                    return ITEM_BODY_FIRST;
+                case SECTION_SECOND:
+                    return ITEM_BODY_SECOND;
+            }
+            return NONE_VIEW_TYPE;
+        }
+        ```
+    
+    * onCreateItemHolder: same as onCreateViewHolder
+        ```java
+        @Override
+        public RecyclerView.ViewHolder onCreateItemHolder(ViewGroup parent, int viewType) {
+            switch (viewType) {
+                case ITEM_BODY_FIRST:
+                    return new FirstBodyViewHolder(mInflater.inflate(R.layout.item_body_first, parent ,false));
+                case ITEM_BODY_SECOND:
+                    return new SecondBodyViewHolder(mInflater.inflate(R.layout.item_body_second, parent, false));
+                case ITEM_HEADER:
+                    return new HeaderViewHolder(mInflater.inflate(R.layout.item_header, parent, false));
+                case ITEM_FOOTER:
+                    return new FooterViewHolder(mInflater.inflate(R.layout.item_footer, parent, false));
+            }
+            return null;
+        }
+        ```
+    
+    * onBindItemHolder: same as onBindViewHolder
+        ```java
+        @Override
+        public void onBindItemHolder(RecyclerView.ViewHolder holder, IndexPath indexPath) {
+            int section = indexPath.section;
+            int item = indexPath.item;
+
+            if (holder instanceof FirstBodyViewHolder) {
+                ((FirstBodyViewHolder) holder).bind(mItemList.get(item));
+            }
+            if (holder instanceof HeaderViewHolder) {
+                ((HeaderViewHolder) holder).bind(section);
+            }
+        }
+        ```
+    
+    * getSectionCount: return section count you want to create
+        ```java
+        @Override
+        public int getSectionCount() {
+            return 2;
+        }
+        ```
+        
+    * getSectionItemCount: return section's item count you want to create
+        ```java
+        @Override
+        public int getSectionItemCount(int sectionIndex) {
+            switch (sectionIndex) {
+                case SECTION_FIRST:
+                    return mItemList.size();
+                case SECTION_SECOND:
+                    return 1;
+            }
+            return 0;
+        }
+        ```
+3) Override method (optional)
+    * getSectionHeaderViewType: return viewType want you want to create. If you don't want to create header in section, return NONE_VIEW_TYPE.
+        ```java
+        @Override
+        public int getSectionHeaderViewType(int sectionIndex) {
+            switch (sectionIndex) {
+                case SECTION_FIRST:
+                    return ITEM_HEADER;
+                case SECTION_SECOND:
+                    return ITEM_HEADER;
+            }
+            return NONE_VIEW_TYPE;
+        }
+        ```
+    
+    * getSectionFooterViewType: return viewType want you want to create. If you don't want to create footer in section, return NONE_VIEW_TYPE.
+        ```java
+        @Override
+        public int getSectionFooterViewType(int sectionIndex) {
+            switch (sectionIndex) {
+                case SECTION_FIRST:
+                    return NONE_VIEW_TYPE;
+                case SECTION_SECOND:
+                    return ITEM_FOOTER;
+            }
+            return NONE_VIEW_TYPE;
+        }
+        ```
+    * getItemViewOption: return ViewOption object. ViewOption has attribute, numberOfGrid and rowLayoutParams. If you do not want any viewOption, return null.
+        ```java
+        @Override
+        public ViewOption getItemViewOption(int viewType) {
+            if (viewType == ITEM_BODY_FIRST) {
+                return new ViewOption(2);
+            }
+            return null;
+        }
+        ```
 
 ### License
 
