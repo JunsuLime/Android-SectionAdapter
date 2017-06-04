@@ -1,6 +1,8 @@
 # SectionAdapter
 
-  <img src="https://cloud.githubusercontent.com/assets/17852124/26753991/f83a0a80-48ac-11e7-946c-9c20917ce6bf.png" width="400" />
+***Recycler Adapter to control section item.***
+
+<img src="https://cloud.githubusercontent.com/assets/17852124/26753991/f83a0a80-48ac-11e7-946c-9c20917ce6bf.png" width="400" />
 
 
 ## index
