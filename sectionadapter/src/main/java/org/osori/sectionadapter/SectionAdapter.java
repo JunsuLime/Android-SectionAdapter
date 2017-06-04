@@ -3,7 +3,6 @@ package org.osori.sectionadapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -61,8 +60,8 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             layout.setOrientation(LinearLayout.HORIZONTAL);
 
             // copy viewOption's layout params
-            if (viewOption.gridItemLayoutParam != null) {
-                RecyclerView.LayoutParams holderLp = viewOption.gridItemLayoutParam;
+            if (viewOption.rowItemLayoutParam != null) {
+                RecyclerView.LayoutParams holderLp = viewOption.rowItemLayoutParam;
                 RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(holderLp.width, holderLp.height);
                 lp.setMargins(holderLp.leftMargin, holderLp.topMargin, holderLp.rightMargin, holderLp.bottomMargin);
 
@@ -478,19 +477,19 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
      * To handle grid option of item
      *
      * numberOfGrid: How many items will be contained at one row
-     * gridItemLayoutParam: row's layoutParams, not item...
+     * rowLayoutParam: row's layoutParams, not item...
      */
     public class ViewOption {
         public int numberOfGrid;
-        public RecyclerView.LayoutParams gridItemLayoutParam;
+        public RecyclerView.LayoutParams rowItemLayoutParam;
 
         public ViewOption(int numberOfGrid) {
             this(numberOfGrid, null);
         }
 
-        public ViewOption(int numberOfGrid, RecyclerView.LayoutParams gridItemLayoutParam) {
+        public ViewOption(int numberOfGrid, RecyclerView.LayoutParams rowLayoutParam) {
             this.numberOfGrid = numberOfGrid;
-            this.gridItemLayoutParam = gridItemLayoutParam;
+            this.rowItemLayoutParam = rowLayoutParam;
         }
     }
 }
