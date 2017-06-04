@@ -3,7 +3,6 @@ package org.osori.sectionadapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -61,8 +60,8 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             layout.setOrientation(LinearLayout.HORIZONTAL);
 
             // copy viewOption's layout params
-            if (viewOption.gridItemLayoutParam != null) {
-                RecyclerView.LayoutParams holderLp = viewOption.gridItemLayoutParam;
+            if (viewOption.rowItemLayoutParam != null) {
+                RecyclerView.LayoutParams holderLp = viewOption.rowItemLayoutParam;
                 RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(holderLp.width, holderLp.height);
                 lp.setMargins(holderLp.leftMargin, holderLp.topMargin, holderLp.rightMargin, holderLp.bottomMargin);
 
@@ -82,7 +81,6 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                 RecyclerView.ViewHolder itemHolder = onCreateItemHolder(layout, viewType);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemHolder.itemView.getLayoutParams();
                 params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 params.weight = 1f;
 
                 itemHolder.itemView.setLayoutParams(params);
@@ -201,7 +199,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             viewType = getSectionFooterViewType(sectionIndex);
         }
         else {
-            viewType = getSectionItemViewType(sectionIndex);
+            viewType = getSectionItemViewTypeInternal(sectionIndex);
         }
 
         ViewOption viewOption = getItemViewOption(viewType);
@@ -215,15 +213,28 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
     }
 
     /**
+     * Internal function to get section item type.
+     * This function check item view type which view type is NONE_VIEW_TYPE.
+     * If it is NONE_VIEW_TYPE, throw Exception.
+     */
+    private int getSectionItemViewTypeInternal(int sectionIndex) {
+        int viewType = getSectionItemViewType(sectionIndex);
+        if (viewType == NONE_VIEW_TYPE) {
+            throw new IllegalStateException("Item's view type cannot be NONE_VIEW_TYPE, -1");
+        }
+        else {
+            return viewType;
+        }
+    }
+
+    /**
      * Section Item's viewType is restricted to only one viewType.
      * Define sectionItem's viewType in here.
      * This value will be transferred to onCreateItemHolder.
      * @param sectionIndex: Section index what you want to define viewType
      * @return: Item viewType
      */
-    public int getSectionItemViewType(int sectionIndex) {
-        return 0;
-    }
+    public abstract int getSectionItemViewType(int sectionIndex);
 
     /**
      * Section Header's viewType is restricted to only one viewType.
@@ -276,7 +287,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
             int sectionRowCount = getRowCountInSection(sectionIndex);
             if (cur <= position && position < cur + sectionRowCount) {
                 pathSection = sectionIndex;
-                ViewOption viewOption = getItemViewOption(getSectionItemViewType(sectionIndex));
+                ViewOption viewOption = getItemViewOption(getSectionItemViewTypeInternal(sectionIndex));
                 int numberOfGrid = DEFAULT_GRID;
                 if (viewOption != null)  numberOfGrid = viewOption.numberOfGrid;
                 // Case default grid option
@@ -309,7 +320,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
         if (itemCount == 0) return 0;
 
         // Get view holder info of ItemHolder
-        ViewOption viewOption = getItemViewOption(getSectionItemViewType(sectionIndex));
+        ViewOption viewOption = getItemViewOption(getSectionItemViewTypeInternal(sectionIndex));
         if (viewOption == null || viewOption.numberOfGrid == DEFAULT_GRID) return itemCount;
 
         int gridCount = viewOption.numberOfGrid;
@@ -349,7 +360,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
                 }
 
                 // Get view holder info of ItemHolder
-                ViewOption viewOption = getItemViewOption(getSectionItemViewType(i));
+                ViewOption viewOption = getItemViewOption(getSectionItemViewTypeInternal(i));
                 int numberOfGrid = DEFAULT_GRID;
                 if (viewOption != null) numberOfGrid = viewOption.numberOfGrid;
 
@@ -466,19 +477,19 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
      * To handle grid option of item
      *
      * numberOfGrid: How many items will be contained at one row
-     * gridItemLayoutParam: row's layoutParams, not item...
+     * rowLayoutParam: row's layoutParams, not item...
      */
     public class ViewOption {
         public int numberOfGrid;
-        public RecyclerView.LayoutParams gridItemLayoutParam;
+        public RecyclerView.LayoutParams rowItemLayoutParam;
 
         public ViewOption(int numberOfGrid) {
             this(numberOfGrid, null);
         }
 
-        public ViewOption(int numberOfGrid, RecyclerView.LayoutParams gridItemLayoutParam) {
+        public ViewOption(int numberOfGrid, RecyclerView.LayoutParams rowLayoutParam) {
             this.numberOfGrid = numberOfGrid;
-            this.gridItemLayoutParam = gridItemLayoutParam;
+            this.rowItemLayoutParam = rowLayoutParam;
         }
     }
 }
