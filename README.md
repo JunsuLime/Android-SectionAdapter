@@ -10,7 +10,7 @@
 * Motivation
 * How to use it?
 
-### Motivation
+## Motivation
 
 When I develop application with RecyclerView, I got problem happend from NestedScrollView and RecyclerView.
 
@@ -23,7 +23,7 @@ My coworker, IOS develop introduce Swift TableView to me. TableView control list
 Swift TableView is motivation of this library.
 
 
-### How to use it?
+## How to use it?
 
 1) Make Adapter that extends SectionAdapter
 
