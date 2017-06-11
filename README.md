@@ -22,10 +22,35 @@ My coworker, IOS develop introduce Swift TableView to me. TableView control list
 
 Swift TableView is motivation of this library.
 
+## How to import this library
+
+At project build.gradle
+
+```gradle
+allprojects {
+    repositories {
+        jcenter()
+        
+        // add this
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+At app module build.gradle
+
+```gradle
+dependencies {
+    // ......
+
+    // add this
+    compile 'com.github.JunsuLime:Android-RecyclerView-SectionAdapter:v0.1.0'
+}
+```
 
 ## How to use it?
 
-1) Make Adapter that extends SectionAdapter
+1) **Make Adapter that extends SectionAdapter**
 
 ```java
 public class SampleAdapter extends SectionAdapter {
@@ -35,7 +60,7 @@ public class SampleAdapter extends SectionAdapter {
 }
 ```
 
-2) Override unimplemented method (must)
+2) **Override unimplemented method (must)**
     * getSectionItemViewType: return viewType of section item, return value must not be NONE_VIEW_TYPE, -1.
         ```java
         @Override
@@ -105,7 +130,7 @@ public class SampleAdapter extends SectionAdapter {
             return 0;
         }
         ```
-3) Override method (optional)
+3) **Override method (optional)**
     * getSectionHeaderViewType: return viewType want you want to create. If you don't want to create header in section, return NONE_VIEW_TYPE.
         ```java
         @Override
