@@ -24,7 +24,7 @@ Swift TableView is motivation of this library.
 
 ## How to import this library
 
-At project build.gradle
+Project `build.gradle`
 
 ```gradle
 allprojects {
@@ -37,7 +37,7 @@ allprojects {
 }
 ```
 
-At app module build.gradle
+App module `build.gradle`
 
 ```gradle
 dependencies {
@@ -52,8 +52,28 @@ dependencies {
 
 1) **Make Adapter that extends SectionAdapter**
 
+For convenience, I define section index and item view type.
+
 ```java
 public class SampleAdapter extends SectionAdapter {
+    
+    private Context mContext;
+    private LayoutInflater mInflater;
+
+    // first section's item list
+    // it is define at MainActivity.
+    private List<String> mItemList;
+
+    // for convenience section index is defined as final variable
+    private final int SECTION_FIRST = 0;
+    private final int SECTION_SECOND = 1;
+
+    // for convenience view type is defined as final variable
+    private final int ITEM_HEADER = 0;
+    private final int ITEM_FOOTER = 1;
+    private final int ITEM_BODY_FIRST = 2;
+    private final int ITEM_BODY_SECOND = 3;
+
     public SampleAdpater(Context context) {
         super(context);
     }
@@ -61,7 +81,7 @@ public class SampleAdapter extends SectionAdapter {
 ```
 
 2) **Override unimplemented method (must)**
-    * getSectionItemViewType: return viewType of section item, return value must not be NONE_VIEW_TYPE, -1.
+    * `getSectionItemViewType`: return viewType of section item, return value must not be `NONE_VIEW_TYPE`, -1.
         ```java
         @Override
         public int getSectionItemViewType(int sectionIndex) {
@@ -75,7 +95,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
     
-    * onCreateItemHolder: same as onCreateViewHolder
+    * `onCreateItemHolder`: same as `onCreateViewHolder`
         ```java
         @Override
         public RecyclerView.ViewHolder onCreateItemHolder(ViewGroup parent, int viewType) {
@@ -93,7 +113,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
     
-    * onBindItemHolder: same as onBindViewHolder
+    * `onBindItemHolder`: same as `onBindViewHolder`
         ```java
         @Override
         public void onBindItemHolder(RecyclerView.ViewHolder holder, IndexPath indexPath) {
@@ -109,7 +129,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
     
-    * getSectionCount: return section count you want to create
+    * `getSectionCount`: return section count you want to create
         ```java
         @Override
         public int getSectionCount() {
@@ -117,7 +137,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
         
-    * getSectionItemCount: return section's item count you want to create
+    * `getSectionItemCount`: return section's item count you want to create
         ```java
         @Override
         public int getSectionItemCount(int sectionIndex) {
@@ -131,7 +151,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
 3) **Override method (optional)**
-    * getSectionHeaderViewType: return viewType want you want to create. If you don't want to create header in section, return NONE_VIEW_TYPE.
+    * `getSectionHeaderViewType`: return viewType want you want to create. If you don't want to create header in section, return `NONE_VIEW_TYPE`.
         ```java
         @Override
         public int getSectionHeaderViewType(int sectionIndex) {
@@ -145,7 +165,7 @@ public class SampleAdapter extends SectionAdapter {
         }
         ```
     
-    * getSectionFooterViewType: return viewType want you want to create. If you don't want to create footer in section, return NONE_VIEW_TYPE.
+    * `getSectionFooterViewType`: return viewType want you want to create. If you don't want to create footer in section, return `NONE_VIEW_TYPE`.
         ```java
         @Override
         public int getSectionFooterViewType(int sectionIndex) {
@@ -158,7 +178,7 @@ public class SampleAdapter extends SectionAdapter {
             return NONE_VIEW_TYPE;
         }
         ```
-    * getItemViewOption: return ViewOption object. ViewOption has attribute, numberOfGrid and rowLayoutParams. If you do not want any viewOption, return null.
+    * `getItemViewOption`: return ViewOption object. `ViewOption` has attribute, numberOfGrid and rowLayoutParams. If you do not want any viewOption, return null.
         ```java
         @Override
         public ViewOption getItemViewOption(int viewType) {
