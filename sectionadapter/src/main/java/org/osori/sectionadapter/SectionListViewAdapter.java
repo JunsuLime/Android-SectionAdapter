@@ -150,7 +150,6 @@ public abstract class SectionListViewAdapter<VH extends SectionListViewAdapter.V
             Log.d(TAG, "convertView exist case ... holder: " + holder + "  itemView: " + view);
         }
 
-        holder = onCreateItemHolder(parent, viewType);
         holder.itemView.setTag(holder);
         view = holder.itemView;
 
