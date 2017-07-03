@@ -27,5 +27,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
 
-    compile 'com.github.JunsuLime:Android-RecyclerView-SectionAdapter:v0.1.0'
+//    compile 'com.github.JunsuLime:Android-RecyclerView-SectionAdapter:v0.1.0'
+    debugCompile project(':sectionadapter')
 }
