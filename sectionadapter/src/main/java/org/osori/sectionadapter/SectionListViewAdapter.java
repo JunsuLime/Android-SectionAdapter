@@ -2,7 +2,6 @@ package org.osori.sectionadapter;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -133,21 +132,16 @@ public abstract class SectionListViewAdapter<VH extends SectionListViewAdapter.V
             viewType = getSectionItemViewType(section);
         }
 
-//        Log.d(TAG, "build indexPath section: " + section + "  item:" + item);
-//        Log.d(TAG, "item viewType: " + viewType);
-
         View view = convertView;
-        ViewHolder holder;
+        VH holder;
 
         if (view == null) {
             holder = onCreateItemHolder(parent, viewType);
             holder.itemView.setTag(holder);
             view = holder.itemView;
-            Log.d(TAG, "convertView null case ... holder: " + holder + "  itemView: " + view);
         }
         else {
-            holder = (ViewHolder) view.getTag();
-            Log.d(TAG, "convertView exist case ... holder: " + holder + "  itemView: " + view);
+            holder = (VH) view.getTag();
         }
 
         holder.itemView.setTag(holder);
@@ -239,7 +233,6 @@ public abstract class SectionListViewAdapter<VH extends SectionListViewAdapter.V
 
     public abstract class ViewHolder {
         public View itemView;
-
         public ViewHolder(View itemView) {
             this.itemView = itemView;
         }

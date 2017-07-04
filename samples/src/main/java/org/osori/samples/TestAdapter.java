@@ -75,9 +75,12 @@ public class TestAdapter extends SectionListViewAdapter {
     }
 
     class HeaderHolder extends ViewHolder {
-
+        TextView headerText;
         public HeaderHolder(View itemView) {
             super(itemView);
+
+            headerText = (TextView) itemView.findViewById(R.id.header_text);
+            headerText.setTag("test");
         }
     }
 
