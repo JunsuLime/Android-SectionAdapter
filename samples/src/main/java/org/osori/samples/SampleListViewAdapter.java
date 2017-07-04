@@ -15,7 +15,7 @@ import org.osori.sectionadapter.SectionListViewAdapter;
  * Created by junsu on 2017-07-03.
  */
 
-public class TestAdapter extends SectionListViewAdapter {
+public class SampleListViewAdapter extends SectionListViewAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -23,7 +23,7 @@ public class TestAdapter extends SectionListViewAdapter {
     private final int VIEW_TYPE_FIRST_BODY = 0;
     private final int VIEW_TYPE_HEADER = 1;
 
-    TestAdapter(Context context) {
+    SampleListViewAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }

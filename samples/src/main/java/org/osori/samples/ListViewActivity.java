@@ -17,7 +17,7 @@ public class ListViewActivity extends AppCompatActivity {
     Button testButton;
     ListView listView;
 
-    TestAdapter adapter;
+    SampleListViewAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ListViewActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new TestAdapter(this);
+        adapter = new SampleListViewAdapter(this);
         listView.setAdapter(adapter);
     }
 }
