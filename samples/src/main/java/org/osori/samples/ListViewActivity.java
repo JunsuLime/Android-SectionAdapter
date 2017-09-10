@@ -36,5 +36,7 @@ public class ListViewActivity extends AppCompatActivity {
 
         adapter = new SampleListViewAdapter(this);
         listView.setAdapter(adapter);
+
+        listView.setSelection(30);
     }
 }
