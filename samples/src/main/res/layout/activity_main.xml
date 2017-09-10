@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.osori.samples.MainActivity">
+    tools:context="org.osori.samples.RecyclerViewActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"

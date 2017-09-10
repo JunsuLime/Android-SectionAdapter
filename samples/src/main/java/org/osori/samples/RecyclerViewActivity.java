@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import org.osori.sectionadapter.SectionAdapter;
-
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class RecyclerViewActivity extends Activity {
 
     RecyclerView sampleRecyclerView;
-    SampleAdapter sampleAdapter;
+    SampleRecyclerViewAdapter sampleAdapter;
 
     String[] stringArray = {
             "This is", "RecyclerView", "Adapter",
@@ -30,7 +27,7 @@ public class MainActivity extends Activity {
         sampleRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
         List<String> stringList = Arrays.asList(stringArray);
-        sampleAdapter = new SampleAdapter(this, stringList);
+        sampleAdapter = new SampleRecyclerViewAdapter(this, stringList);
 
         sampleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sampleRecyclerView.setAdapter(sampleAdapter);

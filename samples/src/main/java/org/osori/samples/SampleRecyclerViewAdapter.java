@@ -17,13 +17,13 @@ import java.util.List;
  * Created by junsu
  */
 
-public class SampleAdapter extends SectionAdapter {
+public class SampleRecyclerViewAdapter extends SectionAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
 
     // first section's item list
-    // it is define at MainActivity.
+    // it is define at RecyclerViewActivity.
     private List<String> mItemList;
 
     // for convenience section index is defined as final variable
@@ -36,7 +36,7 @@ public class SampleAdapter extends SectionAdapter {
     private final int ITEM_BODY_FIRST = 2;
     private final int ITEM_BODY_SECOND = 3;
 
-    public SampleAdapter(Context context, List<String> itemList) {
+    public SampleRecyclerViewAdapter(Context context, List<String> itemList) {
         super(context);
         mContext = context;
 
