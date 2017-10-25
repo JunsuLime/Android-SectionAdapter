@@ -154,7 +154,7 @@ public abstract class SectionAdapter extends RecyclerView.Adapter {
      * @return: Row count
      */
     @Override
-    public int getItemCount() {
+    public final int getItemCount() {
         int itemCount = 0;
 
         int sectionCount = getSectionCount();
