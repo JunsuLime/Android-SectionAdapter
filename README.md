@@ -44,7 +44,7 @@ dependencies {
     // ......
 
     // add this
-    compile 'com.github.JunsuLime:Android-RecyclerView-SectionAdapter:v0.1.0'
+    compile 'com.github.JunsuLime:Android-SectionAdapter:v0.2.0'
 }
 ```
 
