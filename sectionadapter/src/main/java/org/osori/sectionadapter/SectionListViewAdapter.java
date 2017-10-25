@@ -195,7 +195,7 @@ public abstract class SectionListViewAdapter<VH extends SectionListViewAdapter.V
     }
 
     @Override
-    public int getCount() {
+    public final int getCount() {
         int itemCount = 0;
 
         int sectionCount = getSectionCount();
